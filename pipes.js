@@ -1,5 +1,5 @@
 function pipes(){
-    this.gap = random(120,(height-base.height)/1.5);
+    this.gap = random(120,(height-base.height)/1.7);
     this.downbottom = random(30, (height-base.height)-this.gap);
     this.downtop = this.downbottom - pipedown.height;
     this.uptop = this.downbottom + this.gap;

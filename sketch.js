@@ -18,6 +18,9 @@ var timecounter = 0;
 let playb;
 let pauseb;
 let fsb;
+let music;
+let hit;
+let wing;
 
 function preload(){
   bgnight = loadImage('images/background-night.png');
@@ -32,6 +35,9 @@ function preload(){
   pauseb = createImg('images/pause.png', 'pause');
   fsb = createImg('images/fullscreen.png', 'fullscreen');
   base = loadImage('images/base.png');
+  music =loadSound('sounds/music.mp3')
+  hit =loadSound('sounds/hit.mp3')
+  wing =loadSound('sounds/wing.mp3')
 
 }
 
@@ -81,6 +87,9 @@ function createNewGame(){
 }
 
 function draw() {
+  if(!music.isPlaying()){
+    music.loop();
+  }
   if(time){
     background(51, 165, 255);
     for (var x = 0; x < col; x++){
@@ -102,6 +111,8 @@ function draw() {
 
       if(Pipe[i].checkgame(Bird)){
         gameover();
+        music.stop();
+        hit.play();
         noLoop();
         play = false;
       }
@@ -109,6 +120,7 @@ function draw() {
     
     if (frameCount % 100 == 5) {
       Pipe.push(new pipes());
+
     }
   
 
@@ -177,15 +189,15 @@ let scorefun = function() {
 function keyPressed(){
   if (key == ' ' || key =='ArrowUp'){
     if(play && loadgame) {
-    Bird.fly();
-    start = true;
-    loop()
+      wing.play();
+      Bird.fly();
+      start = true;
+      loop()
   }
   }
 }
 
 window.onresize = function() {
-    // assigns new values for width and height variables
     w = window.innerWidth;
     h = window.innerHeight;  
     if(h < 600){
