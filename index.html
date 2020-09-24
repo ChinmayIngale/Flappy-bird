@@ -2,75 +2,26 @@
 <head>
   <title>Flappy Bird</title>
   <meta charset="UTF-8">
-  <style>
-    *{
-
-      margin: 0;
-    }
-    .container{
-			width: 100vw;
-			height: 100vh;
-      position: absolute;
-      top: 0;
-      background-color: darkgreen;
-      background-size: cover;
-      text-align: center;
-      z-index: 1;
-    }
-    #name{
-      width: 60%;
-    margin: 7% auto;
-    }
-    #show{
-      height: 20vh;
-      width: 40vw;
-      background: none;
-      color: yellowgreen;
-      font-size: 5em;
-      border: yellowgreen 2px solid;
-      border-radius: 5px;
-    }
-    .gameover{
-      position: absolute;
-      z-index: 1;
-      top:30vh;
-      right: 30vw;
-      height: 40vh;
-      width: 40vw;
-      text-align: center;
-      border: 2px solid black;
-      border-radius: 10px;
-      background-color: #ded895;
-      display:none;
-    }
-    .gameover p{
-      font-size: 4rem;
-      line-height: 100px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    .gameover button{
-      height: 30%;
-      width: 70%;
-      font-size: 4em;
-      border-radius: 5px;
-    }
-    #game{
-      display: none;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
   <div class='container'>
     <p><img src="images/name.png" id="name"></p>
+    <p id="loading">Loading...</p>
     <button id="show" onclick="startgame()">Start Game</button>
   </div>
   <div id="game"></div>
   <div class="gameover">
     <p style="color: #ff3700;font-weight: bold;">GAMEOVER</p>
     <p>Score : <span id="score"></span></p>
-    <button onclick="createNewGame()">restart</button>
+    <p><button onclick="createNewGame()">restart</button></p>
+    
   </div>
-  
+  <div id="p5_loading" class="loadingclass">loding game...(this might take few seconds)</div>
+  <div class="footer">
+		Made by  <a href="https://github.com/ChinmayIngale" target="_blank"><i class="fa fa-github"></i> Chinmay Ingale</a>
+	</div>
 </body>
 <script src="js/p5.js"></script>
 <script src="js/p5.sound.min.js"></script>
@@ -81,17 +32,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
 	<script>
-    var t = anime.timeline();
-    t.add({
+    anime({
       targets: '#name',
       translateY: ['-80vh','0'],
       duration: 2000
     });
-    t.add({
-      targets: '#show',
+    anime({
+      targets: '#loading',
       opacity: [0,1],
-      duration: 2000,
-      easing: 'easeOutCubic'
+      duration: 1000,
+      loop: true,
+      direction: 'alternate',
+      easing: 'linear'
     });
     function startgame(){
       var t1 = anime.timeline();
@@ -108,6 +60,7 @@
     });
     $('#game').show();
     loadgame = true
+    $('.footer').css('background-color', '#b8af4f')
     }
   </script>
 </html>

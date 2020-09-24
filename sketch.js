@@ -3,7 +3,7 @@ let bg;
 let base;
 let col = 10;
 var w = window.innerWidth;
-var h = window.innerHeight; 
+var h = window.innerHeight-10; 
 let start = false;
 let play = false;
 let loadgame = false;
@@ -21,6 +21,9 @@ let fsb;
 let music;
 let hit;
 let wing;
+let muteb;
+let unmuteb;
+var sound = true;
 
 function preload(){
   bgnight = loadImage('images/background-night.png');
@@ -34,6 +37,8 @@ function preload(){
   playb = createImg('images/play.png','play');
   pauseb = createImg('images/pause.png', 'pause');
   fsb = createImg('images/fullscreen.png', 'fullscreen');
+  muteb = createImg('images/mute.png', 'mute');
+  unmuteb = createImg('images/unmute.png', 'unmute');
   base = loadImage('images/base.png');
   music =loadSound('sounds/music.mp3')
   hit =loadSound('sounds/hit.mp3')
@@ -57,6 +62,8 @@ function gameover(){
 function setup() {
   canvas = createCanvas(w,h);
   canvas.parent('game');
+  $("#loading").hide();
+  $('#show').css('display', 'inline-block');
   createNewGame();
 }
 function createNewGame(){
@@ -87,8 +94,8 @@ function createNewGame(){
 }
 
 function draw() {
-  if(!music.isPlaying()){
-    music.loop();
+  if(sound && !music.isPlaying()){
+    music.play();
   }
   if(time){
     background(51, 165, 255);
@@ -112,7 +119,9 @@ function draw() {
       if(Pipe[i].checkgame(Bird)){
         gameover();
         music.stop();
-        hit.play();
+        if(sound){
+          hit.play();
+        }
         noLoop();
         play = false;
       }
@@ -150,7 +159,6 @@ function draw() {
   text("Highscore:"+highscore,200,height-50);
   setButtons()
   timecounter++;
-  console.log(timecounter);
   if(timecounter % 2000 == 0){
     if(time){
       time = false;
@@ -164,17 +172,27 @@ function draw() {
 
 
 let setButtons = function(){
-  playb.position((width/2)-120,height-80);
+  playb.position((width/2)-80,height-80);
   playb.size(60,60);
   playb.mousePressed(playgame);
 
-  pauseb.position((width/2)-30,height-80);
+  pauseb.position((width/2)+20,height-80);
   pauseb.size(60,60);
   pauseb.mousePressed(pausegame)
 
-  fsb.position(width-90,20);
+  fsb.position(width-70,10);
   fsb.size(60,60);
   fsb.mousePressed(fs)
+
+  muteb.position(width-70,80);
+  muteb.size(60,60);
+  muteb.mousePressed(mutef);
+
+  unmuteb.position(width-70,150);
+  unmuteb.size(60,60);
+  unmuteb.mousePressed(unmutef);
+
+ 
 }
 
 let scorefun = function() {
@@ -189,7 +207,9 @@ let scorefun = function() {
 function keyPressed(){
   if (key == ' ' || key =='ArrowUp'){
     if(play && loadgame) {
-      wing.play();
+      if(sound){
+        wing.play();
+      }
       Bird.fly();
       start = true;
       loop()
@@ -217,4 +237,16 @@ function pausegame(){
 }
 function fs(){
   fullscreen(canvas);
+}
+
+function mutef(){
+  music.stop();
+  sound = false;
+}
+
+function unmutef(){
+  if(!music.isPlaying()){
+  music.play();
+  }
+  sound = true;
 }
