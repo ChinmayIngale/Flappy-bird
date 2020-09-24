@@ -18,6 +18,7 @@ var timecounter = 0;
 let playb;
 let pauseb;
 let fsb;
+let flyb;
 let music;
 let hit;
 let wing;
@@ -39,6 +40,7 @@ function preload(){
   fsb = createImg('images/fullscreen.png', 'fullscreen');
   muteb = createImg('images/mute.png', 'mute');
   unmuteb = createImg('images/unmute.png', 'unmute');
+  flyb = createImg('images/fly.png', 'Click to fly');
   base = loadImage('images/base.png');
   music =loadSound('sounds/music.mp3')
   hit =loadSound('sounds/hit.mp3')
@@ -180,6 +182,10 @@ let setButtons = function(){
   pauseb.size(60,60);
   pauseb.mousePressed(pausegame)
 
+  flyb.position(width-140,height-80);
+  flyb.size(120,60);
+  flyb.mousePressed(flybird);
+
   fsb.position(width-70,10);
   fsb.size(60,60);
   fsb.mousePressed(fs)
@@ -206,15 +212,18 @@ let scorefun = function() {
 
 function keyPressed(){
   if (key == ' ' || key =='ArrowUp'){
-    if(play && loadgame) {
-      if(sound){
-        wing.play();
-      }
-      Bird.fly();
-      start = true;
-      loop()
+    flybird();
   }
-  }
+}
+function flybird(){
+  if(play && loadgame) {
+    if(sound){
+      wing.play();
+    }
+    Bird.fly();
+    start = true;
+    loop();
+}
 }
 
 window.onresize = function() {
